@@ -43,6 +43,7 @@ class Player:
 
 
         collection = our_cards + cards_on_table
+        print('collection: ',collection)
 
         try:
             collection.sort(key=lambda x: values[x])
