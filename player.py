@@ -5,77 +5,80 @@ class Player:
 
 
     def betRequest(self, game_state):
-
-        our_bet = 0
-        values = {'2': 2,
-                  '3': 3,
-                  '4': 4,
-                  '5': 5,
-                  '6': 6,
-                  '7': 7,
-                  '8': 8,
-                  '9': 9,
-                  '10': 10,
-                  'J': 11,
-                  'Q': 12,
-                  'K': 13,
-                  'A': 14}
-
-
-        #-----------------------CARDS----------------------------
-        cards_on_table = []
-        for card in game_state["community_cards"]:
-            cards_on_table.append(card["rank"])
+        print('-------------------------HELLLLLLOOOOO------------------------------')
+        try:
+            our_bet = 0
+            values = {'2': 2,
+                      '3': 3,
+                      '4': 4,
+                      '5': 5,
+                      '6': 6,
+                      '7': 7,
+                      '8': 8,
+                      '9': 9,
+                      '10': 10,
+                      'J': 11,
+                      'Q': 12,
+                      'K': 13,
+                      'A': 14}
 
 
-        stack = 0
-        our_cards = None
-        for players in game_state["players"]:
-            if players["name"] == "Gopnik FM":
-                our_cards = players["hole_cards"]
-                stack = players["stack"]
+            #-----------------------CARDS----------------------------
+            cards_on_table = []
+            for card in game_state["community_cards"]:
+                cards_on_table.append(card["rank"])
+
+
+            stack = 0
+            our_cards = None
+            for players in game_state["players"]:
+                if players["name"] == "Gopnik FM":
+                    our_cards = players["hole_cards"]
+                    stack = players["stack"]
 
 
 
-        collection = our_cards + cards_on_table
-        collection.sort(key=lambda x: values[x])
-        #---------------------------------------------------------
+            collection = our_cards + cards_on_table
+            collection.sort(key=lambda x: values[x])
+            #---------------------------------------------------------
 
 
-        cards = {}
-        for card in collection:
-            if card not in cards:
-                cards[card] = 1
-            else:
-                cards[card] += 1
+            cards = {}
+            for card in collection:
+                if card not in cards:
+                    cards[card] = 1
+                else:
+                    cards[card] += 1
 
 
-        for rank,number in cards.items():
-            if number == 2 and values[rank] >= 10:
-                our_bet += game_state["current_buy_in"] * 1.25
+            for rank,number in cards.items():
+                if number == 2 and values[rank] >= 10:
+                    our_bet += game_state["current_buy_in"] * 1.25
 
 
-        for rank,number in cards.items():
-            if number == 3 and values[rank] >= 5:
-                our_bet = game_state["current_buy_in"] * 1.5
+            for rank,number in cards.items():
+                if number == 3 and values[rank] >= 5:
+                    our_bet = game_state["current_buy_in"] * 1.5
 
 
-        card_cnt = 0
-        for i in range(len(collection) - 1):
-            if values[collection[i + 1]] - values[collection[i]] > 1:
-                card_cnt = 0
-            else:
-                card_cnt += 1
+            card_cnt = 0
+            for i in range(len(collection) - 1):
+                if values[collection[i + 1]] - values[collection[i]] > 1:
+                    card_cnt = 0
+                else:
+                    card_cnt += 1
 
-            if card_cnt == 4:
-                our_bet = game_state["current_buy_in"] * 1.75
-                break
+                if card_cnt == 4:
+                    our_bet = game_state["current_buy_in"] * 1.75
+                    break
 
 
-        if our_bet > stack:
-            our_bet = stack
+            if our_bet > stack:
+                our_bet = stack
 
-        return our_bet
+            return our_bet
+        except Exception:
+            print("Error somewhere")
 
     def showdown(self, game_state):
         pass
