@@ -30,7 +30,6 @@ class Player:
         except Exception:
             print('-----------------------------ERROR 1---------------------------')
 
-
         stack = 0
         our_cards = None
         try:
@@ -43,6 +42,8 @@ class Player:
 
 
         collection = our_cards + cards_on_table
+        print('card_on_table:', cards_on_table)
+        print('our_cards', our_cards)
         print('collection: ',collection)
 
         try:
