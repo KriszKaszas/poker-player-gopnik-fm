@@ -42,16 +42,14 @@ class Player:
             print('-----------------------------ERROR 2---------------------------')
 
 
-        collection = []
-        for card in cards_on_table:
-            collection.append(card['rank'])
-        for card in our_cards:
-            collection.append(card['rank'])
+        collection = our_cards + cards_on_table
 
 
         print('card_on_table:', cards_on_table)
         print('our_cards', our_cards)
         print('collection: ',collection)
+
+
 
         try:
             collection.sort(key=lambda x: values[x])
