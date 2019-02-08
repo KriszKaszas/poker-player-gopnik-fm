@@ -18,15 +18,17 @@ class Player:
             if game_state["current_buy_in"] == 0:
                 our_bet = 100
             elif our_cards[0]["rank"] in cards_on_table:
-                our_bet = game_state["current_buy_in"] + 100
-            else:
                 our_bet = game_state["current_buy_in"] * 2
+            elif len(cards_on_table) > 3:
+                our_bet = 0
+            else:
+                our_bet = game_state["current_buy_in"]
 
-        if len(cards_on_table) > 3:
-            our_bet = 0
+
 
         return our_bet
 
     def showdown(self, game_state):
         pass
+
 
