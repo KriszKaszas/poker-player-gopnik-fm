@@ -102,9 +102,6 @@ class Player:
         except Exception:
             print('-----------------------------ERROR 7---------------------------')
 
-        if our_bet > stack:
-            our_bet = stack
-
         return our_bet
 
 
