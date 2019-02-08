@@ -2,33 +2,88 @@
 class Player:
     VERSION = "Gopnik_FM_ver_1.0"
 
-    def betRequest(self, game_state):
-        our_bet = 0
-        our_cards = None
-        cards_on_table = []
 
+
+    def betRequest(self, game_state):
+
+        our_bet = 0
+        values = {'2': 2,
+                  '3': 3,
+                  '4': 4,
+                  '5': 5,
+                  '6': 6,
+                  '7': 7,
+                  '8': 8,
+                  '9': 9,
+                  '10': 10,
+                  'J': 11,
+                  'Q': 12,
+                  'K': 13,
+                  'A': 14}
+
+
+        #-----------------------CARDS----------------------------
+        cards_on_table = []
         for card in game_state["community_cards"]:
             cards_on_table.append(card["rank"])
 
+
+        stack = 0
+        our_cards = None
         for players in game_state["players"]:
             if players["name"] == "Gopnik FM":
                 our_cards = players["hole_cards"]
+                stack = players["stack"]
 
-        if our_cards[0]["rank"] == our_cards[1]["rank"] and our_cards[0]["rank"] in ["J", "K", "Q", "A"]:
-            if game_state["current_buy_in"] == 0:
-                our_bet = 100
-            elif our_cards[0]["rank"] in cards_on_table:
-                our_bet = game_state["current_buy_in"] * 2
-            elif len(cards_on_table) > 3:
-                our_bet = 0
+
+
+        collection = our_cards + cards_on_table
+        collection.sort(key=lambda x: values[x])
+        #---------------------------------------------------------
+
+
+        cards = {}
+        for card in collection:
+            if card not in cards:
+                cards[card] = 1
             else:
-                our_bet = game_state["current_buy_in"]
+                cards[card] += 1
 
 
+        for rank,number in cards.items():
+            if number == 2 and values[rank] >= 10:
+                our_bet += game_state["current_buy_in"] * 1.25
+
+
+        for rank,number in cards.items():
+            if number == 3 and values[rank] >= 5:
+                our_bet = game_state["current_buy_in"] * 1.5
+
+
+        card_cnt = 0
+        for i in range(len(collection) - 1):
+            if values[collection[i + 1]] - values[collection[i]] > 1:
+                card_cnt = 0
+            else:
+                card_cnt += 1
+
+            if card_cnt == 4:
+                our_bet = game_state["current_buy_in"] * 1.75
+                break
+
+
+        if our_bet > stack:
+            our_bet = stack
 
         return our_bet
 
     def showdown(self, game_state):
         pass
+
+
+
+
+
+
 
 
