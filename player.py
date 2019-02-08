@@ -50,6 +50,10 @@ class Player:
         print('collection: ',collection)
 
 
+        if len(collection) < 5:
+            our_bet = game_state["current_buy_in"]
+            return our_bet
+
 
         try:
             collection.sort(key=lambda x: values[x])
