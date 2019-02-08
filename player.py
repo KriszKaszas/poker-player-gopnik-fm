@@ -31,11 +31,12 @@ class Player:
             print('-----------------------------ERROR 1---------------------------')
 
         stack = 0
-        our_cards = None
+        our_cards = []
         try:
             for players in game_state["players"]:
                 if players["name"] == "Gopnik FM":
-                    our_cards = players["hole_cards"]
+                    for card in players["hole_cards"]:
+                        our_cards.append(card['rank'])
                     stack = players["stack"]
         except Exception:
             print('-----------------------------ERROR 2---------------------------')
