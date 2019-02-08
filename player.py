@@ -54,6 +54,7 @@ class Player:
 
             if len(collection) < 5:
                 our_bet = game_state["current_buy_in"]
+                print("PRE FLOP BET: ", our_bet)
                 return our_bet
 
 
@@ -103,10 +104,9 @@ class Player:
                         break
             except Exception:
                 print('-----------------------------ERROR 7---------------------------')
-
-
         except Exception:
             print("top level error")
+        print("MONEY:     ", our_bet)
         return our_bet
 
     def showdown(self, game_state):
